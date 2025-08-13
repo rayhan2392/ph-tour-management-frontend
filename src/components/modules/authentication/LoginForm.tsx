@@ -4,8 +4,9 @@ import { Input } from "@/components/ui/input"
 import { Link, useNavigate } from "react-router"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form"
-import { useLoginMutation } from "@/redux/features/auth/auth.api"
+import { useLoginMutation} from "@/redux/features/auth/auth.api"
 import { toast } from "sonner"
+import config from "@/config"
 
 export function LoginForm({
   className,
@@ -15,21 +16,31 @@ export function LoginForm({
   const form = useForm();
   const [login] = useLoginMutation()
 
+
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
       console.log(data)
       const res = await login(data).unwrap();
+      navigate("/")
       console.log(res)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error:any) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
       console.error(error)
       if (error.status === 401) {
-        toast.error("Your account is not verified");
-        navigate("/verify", { state: data.email });
+
+        if (error.data.message === "Password does not match") {
+          toast.error("Invalid credentials");
+        }
+
+        if (error.data.message === "User is not verified") {
+          toast.error("Your account is not verified");
+          navigate("/verify", { state: data.email });
+        }
       }
     }
   }
 
+ 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <div className="flex flex-col items-center gap-2 text-center">
@@ -95,6 +106,7 @@ export function LoginForm({
           type="button"
           variant="outline"
           className="w-full cursor-pointer"
+          onClick={() => window.open(`${config.baseUrl}/auth/google`)}
         >
           Login with Google
         </Button>
