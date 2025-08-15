@@ -1,6 +1,4 @@
 import * as React from "react"
-
-
 import {
   Sidebar,
   SidebarContent,
@@ -22,12 +20,12 @@ import { getSidebarItems } from "@/utils/getSidebarItems"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
-  // const { data: userData } = useUserInfoQuery(undefined)
+  const { data: userData } = useUserInfoQuery(undefined)
 
   const data = {
 
-    // navMain: getSidebarItems(userData?.data?.role)
-    navMain: getSidebarItems('USER')
+    navMain: getSidebarItems(userData?.data?.role)
+    
   }
 
   return (
