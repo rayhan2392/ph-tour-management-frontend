@@ -17,14 +17,14 @@ const AddTourType = () => {
     const { data, isLoading } = useGetTourTypesQuery(undefined);
     const [removeTourType] = useRemoveTourTypeMutation()
 
-    const handleRemoveTourType = async(tourId:string)=>{
+    const handleRemoveTourType = async (tourId: string) => {
         const toastId = toast.loading("deleting tour type....")
         try {
             const res = await removeTourType(tourId).unwrap();
-            if(res.success){
-                toast.success("Tour type deleted successfully",{id:toastId})
+            if (res.success) {
+                toast.success("Tour type deleted successfully", { id: toastId })
             }
-            
+
         } catch (error) {
             console.error(error)
         }
@@ -55,14 +55,14 @@ const AddTourType = () => {
                                 </TableCell>
                             </TableRow>
                         ) : data?.length ? (
-                            data.map((item: {_id:string, name: string }, index: number) => (
+                            data.map((item: { _id: string, name: string }, index: number) => (
                                 <TableRow
                                     key={index}
                                     className="hover:bg-muted/50 transition-colors"
                                 >
                                     <TableCell className="font-medium">{item.name}</TableCell>
                                     <TableCell className="text-right">
-                                        <DeleteConfirmation onConfirm={()=>handleRemoveTourType(item._id)}>
+                                        <DeleteConfirmation onConfirm={() => handleRemoveTourType(item._id)}>
                                             <Button size="sm">
                                                 <Trash2 />
                                             </Button>

@@ -26,7 +26,6 @@ const AddTourTypeModal = () => {
         if(res.success){
             toast.success("Tour type added successfylly")
         }
-        console.log(res)
     }
 
     return (
@@ -65,7 +64,7 @@ const AddTourTypeModal = () => {
                             <DialogClose asChild>
                                 <Button variant="outline">Cancel</Button>
                             </DialogClose>
-                            <Button type="submit" form="add-tour-type">Save changes</Button>
+                            <Button type="submit" form="add-tour-type">Add</Button>
                         </DialogFooter>
                     </DialogContent>
                 </form>
